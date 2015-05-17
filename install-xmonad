@@ -17,19 +17,19 @@
 # 
 # Author: David Brewer
 
-echo "Adding PPA to allow install of Synapse on Trusty"
-sudo apt-add-repository ppa:synapse-core/testing
-sudo apt-get update
+# echo "Adding PPA to allow install of Synapse on Trusty"
+# sudo apt-add-repository ppa:synapse-core/testing
+# sudo apt-get update
 
 echo "Installing required packages..."
-sudo apt-get install xmonad libghc-xmonad-dev libghc-xmonad-contrib-dev xmobar xcompmgr nitrogen stalonetray moreutils consolekit synapse ssh-askpass-gnome thunar terminator remmina
+sudo apt-get install xmonad libghc-xmonad-dev libghc-xmonad-contrib-dev \
+  xmobar xcompmgr nitrogen moreutils consolekit ssh-askpass-gnome trayer
 
 echo "Creating xmonad xsession configuration..."
 sudo mv /usr/share/xsessions/xmonad.desktop /usr/share/xsessions/xmonad.desktop.original
 sudo cp ~/.xmonad/xmonad.desktop /usr/share/xsessions
 sudo cp ~/.xmonad/images/custom_xmonad_badge.png /usr/share/unity-greeter
 
-echo "Linking to customized gnome 2 configuration..."
-mv ~/.gtkrc-2.0 ~/gtkrc-2.0.original
-ln -s .xmonad/.gtkrc-2.0 ~/.gtkrc-2.0
-
+# echo "Linking to customized gnome 2 configuration..."
+# mv ~/.gtkrc-2.0 ~/gtkrc-2.0.original
+# ln -s .xmonad/.gtkrc-2.0 ~/.gtkrc-2.0
