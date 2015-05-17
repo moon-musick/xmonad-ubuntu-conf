@@ -1,0 +1,12 @@
+#!/bin/bash
+
+(ps aux | grep trayer | egrep -v "(custom|grep)") && killall trayer 2>/dev/null
+
+trayer  --edge bottom \
+        --align right \
+        --widthtype request \
+        --height 19 \
+        --transparent true \
+        --tint 0x002b36 \
+        --expand true \
+        --monitor primary &

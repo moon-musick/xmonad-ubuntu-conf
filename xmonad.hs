@@ -35,16 +35,20 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 import Data.Ratio ((%))
 
+import XMonad.Actions.FloatKeys
+
+import qualified XMonad.Hooks.EwmhDesktops as EWMH
+
 {-
   Xmonad configuration variables. These settings control some of the
   simpler parts of xmonad's behavior and are straightforward to tweak.
 -}
 
 myModMask            = mod4Mask       -- changes the mod key to "super"
-myFocusedBorderColor = "#ff0000"      -- color of focused border
-myNormalBorderColor  = "#cccccc"      -- color of inactive border
-myBorderWidth        = 1              -- width of border around windows
-myTerminal           = "terminator"   -- which terminal software to use
+myFocusedBorderColor = "#dc322f"      -- color of focused border
+myNormalBorderColor  = "#002b36"      -- color of inactive border
+myBorderWidth        = 2              -- width of border around windows
+myTerminal           = "xterm"        -- which terminal software to use
 myIMRosterTitle      = "Buddy List"   -- title of roster on IM workspace
                                       -- use "Buddy List" for Pidgin, but
                                       -- "Contact List" for Empathy
@@ -55,11 +59,11 @@ myIMRosterTitle      = "Buddy List"   -- title of roster on IM workspace
   of text which xmonad is sending to xmobar via the DynamicLog hook.
 -}
 
-myTitleColor     = "#eeeeee"  -- color of window title
-myTitleLength    = 80         -- truncate window title to this length
-myCurrentWSColor = "#e6744c"  -- color of active workspace
-myVisibleWSColor = "#c185a7"  -- color of inactive workspace
-myUrgentWSColor  = "#cc0000"  -- color of workspace with 'urgent' window
+myTitleColor     = "#fdf6e3"  -- color of window title
+myTitleLength    = 40         -- truncate window title to this length
+myCurrentWSColor = "#859900"  -- color of active workspace
+myVisibleWSColor = "#2aa198"  -- color of inactive workspace
+myUrgentWSColor  = "#dc322f"  -- color of workspace with 'urgent' window
 myCurrentWSLeft  = "["        -- wrap active workspace with these
 myCurrentWSRight = "]"
 myVisibleWSLeft  = "("        -- wrap inactive workspace with these
@@ -89,13 +93,13 @@ myUrgentWSRight = "}"
 
 myWorkspaces =
   [
-    "7:Chat",  "8:Dbg", "9:Pix",
-    "4:Docs",  "5:Dev", "6:Web",
-    "1:Term",  "2:Hub", "3:Mail",
+    "7:Mail",  "8:Dbg", "9:Pix",
+    "4:Chat",  "5:Music", "6:Aux",
+    "1:Term",  "2:Web", "3:Docs",
     "0:VM",    "Extr1", "Extr2"
   ]
 
-startupWorkspace = "5:Dev"  -- which workspace do you want to be on after launch?
+startupWorkspace = "2:Web"  -- which workspace do you want to be on after launch?
 
 {-
   Layout configuration. In this section we identify which xmonad
@@ -171,7 +175,7 @@ gimpLayout = smartBorders(avoidStruts(ThreeColMid 1 (3/100) (3/4)))
 -- Here we combine our default layouts with our specific, workspace-locked
 -- layouts.
 myLayouts =
-  onWorkspace "7:Chat" chatLayout
+  onWorkspace "0:VM" chatLayout
   $ onWorkspace "9:Pix" gimpLayout
   $ defaultLayouts
 
@@ -205,12 +209,26 @@ myKeyBindings =
     ((myModMask, xK_b), sendMessage ToggleStruts)
     , ((myModMask, xK_a), sendMessage MirrorShrink)
     , ((myModMask, xK_z), sendMessage MirrorExpand)
-    , ((myModMask, xK_p), spawn "synapse")
+    , ((myModMask, xK_p), spawn "dmenu_run")
+    , ((myModMask, xK_x), spawn "gnome-screenshot")
+    , ((myModMask, xK_g), spawn "/home/lucas/bin/lock")
     , ((myModMask .|. mod1Mask, xK_space), spawn "synapse")
-    , ((myModMask, xK_u), focusUrgent)
+    , ((myModMask .|. shiftMask, xK_u), focusUrgent)
     , ((0, 0x1008FF12), spawn "amixer -q set Master toggle")
     , ((0, 0x1008FF11), spawn "amixer -q set Master 10%-")
     , ((0, 0x1008FF13), spawn "amixer -q set Master 10%+")
+    -- floats resize & move support
+    , ((myModMask,               xK_d     ), withFocused (keysResizeWindow (-10,-10) (1,1)))
+    , ((myModMask,               xK_s     ), withFocused (keysResizeWindow (10,10) (1,1)))
+    , ((myModMask .|. shiftMask, xK_d     ), withFocused (keysAbsResizeWindow (-10,-10) (1024,752)))
+    , ((myModMask .|. shiftMask, xK_s     ), withFocused (keysAbsResizeWindow (10,10) (1024,752)))
+    -- , ((myModMask .|. shiftMask, xK_h     ), withFocused (keysMoveWindow (-10,0) ))
+    , ((myModMask,               xK_y     ), withFocused (keysMoveWindow (-10,0) ))
+    , ((myModMask,               xK_u     ), withFocused (keysMoveWindow (0,10) ))
+    , ((myModMask,               xK_i     ), withFocused (keysMoveWindow (0,-10) ))
+    , ((myModMask,               xK_o     ), withFocused (keysMoveWindow (10,0) ))
+    -- , ((myModMask .|. shiftMask, xK_l     ), withFocused (keysMoveWindow (10,0) ))
+    , ((myModMask .|. shiftMask, xK_a     ), withFocused (keysMoveWindowTo (512,384) (1%2,1%2)))
   ]
 
 
@@ -262,12 +280,11 @@ myManagementHooks = [
   resource =? "synapse" --> doIgnore
   , resource =? "stalonetray" --> doIgnore
   , className =? "rdesktop" --> doFloat
-  , (className =? "Komodo IDE") --> doF (W.shift "5:Dev")
-  , (className =? "Komodo IDE" <&&> resource =? "Komodo_find2") --> doFloat
-  , (className =? "Komodo IDE" <&&> resource =? "Komodo_gotofile") --> doFloat
-  , (className =? "Komodo IDE" <&&> resource =? "Toplevel") --> doFloat
-  , (className =? "Empathy") --> doF (W.shift "7:Chat")
-  , (className =? "Pidgin") --> doF (W.shift "7:Chat")
+  , (className =? "Firefox") --> doF (W.shift "2:Web")
+  , (className =? "Mendeleydesktop") --> doF (W.shift "3:Docs")
+  , (className =? "HipChat") --> doF (W.shift "4:Chat")
+  , (className =? "Skype") --> doF (W.shift "4:Chat")
+  , (className =? "Spotify") --> doF (W.shift "5:Music")
   , (className =? "Gimp-2.8") --> doF (W.shift "9:Pix")
   ]
 
@@ -336,7 +353,7 @@ myKeys = myKeyBindings ++
 
 main = do
   xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
-  xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {
+  xmonad $ withUrgencyHook NoUrgencyHook $ EWMH.ewmh defaultConfig {
     focusedBorderColor = myFocusedBorderColor
   , normalBorderColor = myNormalBorderColor
   , terminal = myTerminal
