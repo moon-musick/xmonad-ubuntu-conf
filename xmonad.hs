@@ -39,6 +39,8 @@ import XMonad.Actions.FloatKeys
 
 import qualified XMonad.Hooks.EwmhDesktops as EWMH
 
+import Graphics.X11.ExtraTypes.XF86
+
 {-
   Xmonad configuration variables. These settings control some of the
   simpler parts of xmonad's behavior and are straightforward to tweak.
@@ -229,6 +231,9 @@ myKeyBindings =
     , ((myModMask,               xK_o     ), withFocused (keysMoveWindow (10,0) ))
     -- , ((myModMask .|. shiftMask, xK_l     ), withFocused (keysMoveWindow (10,0) ))
     , ((myModMask .|. shiftMask, xK_a     ), withFocused (keysMoveWindowTo (512,384) (1%2,1%2)))
+    , ((0, xF86XK_AudioLowerVolume        ), spawn "amixer set Master 2-")
+    , ((0, xF86XK_AudioRaiseVolume        ), spawn "amixer set Master 2+")
+    , ((0, xF86XK_AudioMute               ), spawn "amixer -q -D pulse sset Master toggle")
   ]
 
 
