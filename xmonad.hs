@@ -46,14 +46,14 @@ import Graphics.X11.ExtraTypes.XF86
   simpler parts of xmonad's behavior and are straightforward to tweak.
 -}
 
-myModMask            = mod4Mask       -- changes the mod key to "super"
-myFocusedBorderColor = "#dc322f"      -- color of focused border
-myNormalBorderColor  = "#002b36"      -- color of inactive border
-myBorderWidth        = 2              -- width of border around windows
-myTerminal           = "xterm"        -- which terminal software to use
-myIMRosterTitle      = "Buddy List"   -- title of roster on IM workspace
-                                      -- use "Buddy List" for Pidgin, but
-                                      -- "Contact List" for Empathy
+myModMask            = mod4Mask         -- changes the mod key to "super"
+myFocusedBorderColor = "#dc322f"        -- color of focused border
+myNormalBorderColor  = "#002b36"        -- color of inactive border
+myBorderWidth        = 2                -- width of border around windows
+myTerminal           = "gnome-terminal" -- which terminal software to use
+myIMRosterTitle      = "Buddy List"     -- title of roster on IM workspace
+                                        -- use "Buddy List" for Pidgin, but
+                                        -- "Contact List" for Empathy
 
 
 {-
