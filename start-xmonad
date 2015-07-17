@@ -70,7 +70,7 @@ nitrogen --restore &
 gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh
 
 # Swap left control and swapcaps. Enable 'legacy' Polish keymap.
-setxkbmap -option 'ctrl:swapcaps' 'pl(legacy)'
+setxkbmap -option 'ctrl:nocaps' 'pl(legacy)'
 
 # Now, finally, start xmonad
 exec xmonad
