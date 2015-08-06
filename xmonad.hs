@@ -66,12 +66,12 @@ myTitleLength    = 40         -- truncate window title to this length
 myCurrentWSColor = "#859900"  -- color of active workspace
 myVisibleWSColor = "#2aa198"  -- color of inactive workspace
 myUrgentWSColor  = "#dc322f"  -- color of workspace with 'urgent' window
-myCurrentWSLeft  = "["        -- wrap active workspace with these
-myCurrentWSRight = "]"
-myVisibleWSLeft  = "("        -- wrap inactive workspace with these
-myVisibleWSRight = ")"
-myUrgentWSLeft  = "{"         -- wrap urgent workspace with these
-myUrgentWSRight = "}"
+myCurrentWSLeft  = "<fc=#fdf6e3,#268bd2> " -- wrap active workspace with these
+myCurrentWSRight = " </fc>"
+myVisibleWSLeft  = "<fc=#002b36,#93a1a1> " -- wrap inactive workspace with these
+myVisibleWSRight = " </fc>"
+myUrgentWSLeft   = "<fc=#002b36,#dc322f> " -- wrap urgent workspace with these
+myUrgentWSRight  = " </fc>"
 
 
 {-
