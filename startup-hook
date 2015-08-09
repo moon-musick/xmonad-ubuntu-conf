@@ -33,6 +33,9 @@ WALLPAPER="$HOME/Obrazy/wallpapers/solarized-dark.jpg"
 # xset dpms 600
 ~/bin/locker &
 
+# Start redshift
+redshift -c ~/.config/redshift.conf &
+
 # On login, we unlock the ssh keychain so we're not prompted for
 # passphrases later. We pipe /dev/null to ssh-add to make it realize
 # it's not running in a terminal. Otherwise, it won't launch the prompt.
