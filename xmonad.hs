@@ -213,7 +213,7 @@ myKeyBindings =
     , ((myModMask, xK_z), sendMessage MirrorExpand)
     , ((myModMask, xK_p), spawn "dmenu_run -f -i -fn Inconsolata-11:normal -nb \\#93a1a1 -nf \\#002b36 -sb \\#859900 -sf \\#fdf6e3")
     , ((myModMask, xK_x), spawn "gnome-screenshot")
-    , ((myModMask, xK_g), spawn "/home/lucas/bin/lock")
+    , ((myModMask, xK_g), spawn "xautolock -locknow")
     , ((myModMask .|. mod1Mask, xK_space), spawn "synapse")
     , ((myModMask .|. shiftMask, xK_u), focusUrgent)
     , ((0, 0x1008FF12), spawn "amixer -q set Master toggle")
